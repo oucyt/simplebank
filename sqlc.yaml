@@ -1,0 +1,22 @@
+version: "2"
+sql:
+- schema: "db/migration" # 指定一个文件或者目录，目的是找到DDL语句
+  queries: "db/query" # 指定一个文件或者目录，目的是用于生成go代码的描述文件（sqlc定义的CRUD描述
+  engine: "postgresql"
+  gen:
+    go: 
+      package: "sqlc" # 生成go文件的包名
+      out: "db/sqlc" # 生成代码的输出路径
+      emit_json_tags: true # 在结构体上加上JSON tags(下划线形式)
+  database:
+    uri: "postgresql://postgres:postgres@localhost:5432/postgres"
+  rules:
+    - sqlc/db-prepare
+# - schema: "mysql/schema.sql"
+#   queries: "mysql/query.sql"
+#   engine: "mysql"
+#   gen:
+#     go:
+#       package: "authors"
+#       out: "mysql"
+      
