@@ -1,5 +1,5 @@
-# DB_URL=postgresql://root:root@192.168.29.200:5432/simple_bank?sslmode=disable
-DB_URL=postgresql://root:root@localhost:5432/simple_bank?sslmode=disable
+DB_URL=postgresql://root:root@192.168.29.200:5432/simple_bank?sslmode=disable
+# DB_URL=postgresql://root:root@localhost:5432/simple_bank?sslmode=disable
 
 postgres:
 	docker run -it --rm --name postgres12 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -d postgres:12.15
