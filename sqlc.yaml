@@ -8,6 +8,7 @@ sql:
       package: "sqlc" # 生成go文件的包名
       out: "db/sqlc" # 生成代码的输出路径
       emit_json_tags: true # 在结构体上加上JSON tags(下划线形式)
+      emit_empty_slices: true # 查询列表时，如不存在记录，使用[]取代nil
   database:
     uri: "postgresql://postgres:postgres@localhost:5432/postgres"
   rules:

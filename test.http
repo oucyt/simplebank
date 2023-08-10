@@ -1,0 +1,15 @@
+@host = http://0.0.0.0:8080
+
+### 创建用户
+POST {{host}}/accounts
+
+{
+    "owner":"tianyu",
+    "currency":"USD"
+}
+
+### 获取用户
+GET {{host}}/accounts/2
+
+### 获取用户列表
+GET {{host}}/accounts?page_id=2&page_size=10
