@@ -58,14 +58,14 @@ type TransferTxResult struct {
 
 // TransferTx performs a money transfer from one account to the other.
 // It creates the transfer, add account entries, and update accounts' balance within a database transaction
-// 转账
+// 转账需要更新三张表，转账记录表，转账双方的收支明细表，转账双方的账户表
 func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
 
 	err := store.execTx(ctx, func(q *Queries) error {
 		var err error
 
-		// 记录 转收用户ID，以及转账金额
+		// 交易记录表，A向B转账
 		result.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
 			FromAccountID: arg.FromAccountID,
 			ToAccountID:   arg.ToAccountID,
@@ -75,7 +75,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 			return err
 		}
 
-		// 账目，转账用户ID，以及减少的金额
+		// 收支明细表，A支出
 		result.FromEntry, err = q.CreateEntry(ctx, CreateEntryParams{
 			AccountID: arg.FromAccountID,
 			Amount:    -arg.Amount,
@@ -84,7 +84,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 			return err
 		}
 
-		// 账目，接收用户ID，以及增加的金额
+		// 收支明细表，B收入
 		result.ToEntry, err = q.CreateEntry(ctx, CreateEntryParams{
 			AccountID: arg.ToAccountID,
 			Amount:    arg.Amount,
@@ -119,7 +119,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 		// 	return err
 		// }
 
-		// 账户，转账账户，减去金额
+		// 账户表，A减少
 		result.FromAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
 			ID:     arg.FromAccountID,
 			Amount: -arg.Amount,
@@ -128,7 +128,7 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 			return err
 		}
 
-		// 账户，接收账户，增加金额
+		// 账户表，B增加
 		result.ToAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
 			ID:     arg.ToAccountID,
 			Amount: arg.Amount,

@@ -1,4 +1,4 @@
--- 错误的删除顺序导致降级失败
+-- 错误的删除顺序会导致降级失败
 -- 2023/08/05 16:54:44 Applying all down migrations
 -- 2023/08/05 16:54:44 Start buffering 1/d init_schema
 -- 2023/08/05 16:54:44 Read and execute 1/d init_schema

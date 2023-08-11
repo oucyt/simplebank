@@ -13,7 +13,10 @@ import (
 var testQueries *Queries
 var testDB *sql.DB
 
+// 方法签名 func TestMain(m *testing.M){}
+// 作用		用于package下的所有单元测试额外的设置（setup）或拆卸（teardown），类似Junit中的@BeforeClass和@AfterClass
 func TestMain(m *testing.M) {
+	// log.Fatal("TestMain 被执行了")
 	config, err := util.LoadConfig("../..")
 	if err != nil {
 		log.Fatal("cannot load config:", err)

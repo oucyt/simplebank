@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// 账户表
 type Account struct {
 	ID      int64  `json:"id"`
 	Owner   string `json:"owner"`
@@ -17,6 +18,7 @@ type Account struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+// 收支明细表
 type Entry struct {
 	ID        int64 `json:"id"`
 	AccountID int64 `json:"account_id"`
@@ -25,11 +27,12 @@ type Entry struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+// 转账记录表
 type Transfer struct {
 	ID            int64 `json:"id"`
 	FromAccountID int64 `json:"from_account_id"`
 	ToAccountID   int64 `json:"to_account_id"`
-	// must be positive
+	// transfers from A to B, must be positive
 	Amount    int64     `json:"amount"`
 	CreatedAt time.Time `json:"created_at"`
 }
