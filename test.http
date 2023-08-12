@@ -9,7 +9,17 @@ POST {{host}}/accounts
 }
 
 ### 获取用户
-GET {{host}}/accounts/2
+GET {{host}}/accounts/1
 
 ### 获取用户列表
-GET {{host}}/accounts?page_id=2&page_size=10
+GET {{host}}/accounts?page_id=1&page_size=10
+
+### 转账
+POST {{host}}/transfers
+
+{
+    "from_account_id":5,
+    "to_account_id":1,
+    "amount":200,
+    "currency":"USD"
+}
