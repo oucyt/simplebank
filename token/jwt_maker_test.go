@@ -1,6 +1,7 @@
 package token
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -10,6 +11,7 @@ import (
 )
 
 func TestJWTMaker(t *testing.T) {
+	// 创建随机secret
 	maker, err := NewJWTMaker(util.RandomString(32))
 	require.NoError(t, err)
 
@@ -20,15 +22,18 @@ func TestJWTMaker(t *testing.T) {
 	expiredAt := issuedAt.Add(duration)
 
 	token, err := maker.CreateToken(username, duration)
+	fmt.Println(token)
 	require.NoError(t, err)
 	require.NotEmpty(t, token)
 
+	// 解密jwt
 	payload, err := maker.VerifyToken(token)
 	require.NoError(t, err)
 	require.NotEmpty(t, token)
 
 	require.NotZero(t, payload.ID)
 	require.Equal(t, username, payload.Username)
+	// 判断是否过期
 	require.WithinDuration(t, issuedAt, payload.IssuedAt, time.Second)
 	require.WithinDuration(t, expiredAt, payload.ExpiredAt, time.Second)
 }

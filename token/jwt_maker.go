@@ -23,6 +23,7 @@ func NewJWTMaker(secretKey string) (Maker, error) {
 
 func (maker JWTMaker) CreateToken(username string, duration time.Duration) (string, error) {
 	payload, err := NewPayload(username, duration)
+	fmt.Println(*payload)
 	if err != nil {
 		return "", err
 	}
