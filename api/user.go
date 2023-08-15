@@ -39,16 +39,19 @@ func newUserResponse(user db.User) userResponse {
 
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
+	// 参数校验，将参数绑定到req中，如果校验不通过，将会返回error
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
+	// 明文密码hash处理
 	hashedPassword, err := util.HashPassword(req.Password)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
+	// 准备插入数据库
 	arg := sqlc.CreateUserParams{
 		Username:       req.Username,
 		HashedPassword: hashedPassword,
@@ -57,6 +60,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 	}
 	user, err := server.store.CreateUser(ctx, arg)
 	if err != nil {
+		// 判定为数据库抛出的异常
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
 			case "unique_violation":

@@ -1,18 +1,6 @@
 @host = http://0.0.0.0:8080
+@token = v2.local.yCpBlUOwstyAJnyJoog4odFKXbtvbGRIcUWvDK9-A1EthVltaQo6n24VGKR-dSgroLGA8oN2aLs_gbaRf_whcvFnxJ6yuvR_-WYpWEaHsk33qQnuMvBE-ckXbvo3ioho_TAutOunc8zzXSXqq6NgwX3_z129sKIQ7bxq1GhenwvtqUf_6Dzpqt2LabmxRKQWFNid188GlEgd7IYD_krLXXj75KI-BiBJaVZEWJMQNZ3CySqwA9Z7-jryNOyRUbmZcWSVXd-PCNPZiFS2IbU.bnVsbA
 
-### 创建用户
-POST {{host}}/accounts
-
-{
-    "owner":"tianyu",
-    "currency":"USD"
-}
-
-### 获取用户
-GET {{host}}/accounts/1
-
-### 获取用户列表
-GET {{host}}/accounts?page_id=1&page_size=10
 
 ### 转账
 POST {{host}}/transfers
@@ -23,3 +11,40 @@ POST {{host}}/transfers
     "amount":200,
     "currency":"USD"
 }
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+### user创建
+POST {{host}}/users
+
+{
+   "username":"tianyu",
+   "password":"123456",
+   "full_name":"tianyu",
+   "email" :"tianyu@gmail.com"
+}
+
+### user登陆
+POST {{host}}/users/login
+
+{
+   "username":"tianyu",
+   "password":"123456" 
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+### 创建用户
+POST {{host}}/accounts
+authorization:bearer {{token}}
+
+{
+    "owner":"tianyu",
+    "currency":"USD"
+}
+
+### 获取用户
+GET {{host}}/accounts/1
+authorization:bearer {{token}}
+
+### 获取用户列表
+GET {{host}}/accounts?page_id=1&page_size=10
+authorization:bearer {{token}}

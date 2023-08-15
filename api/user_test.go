@@ -76,6 +76,10 @@ func requireBodyMatchUser(t *testing.T, body *bytes.Buffer, user db.User) {
 	require.Empty(t, gotUser.HashedPassword)
 }
 
+// 1. 指定测试名称
+// 2. 指定request参数
+// 3. 测试mock实例是否满足预期
+// 4. 测试响应是否满足预期
 func TestCreateUserAPI(t *testing.T) {
 	user, password := randomUser(t)
 
@@ -202,9 +206,11 @@ func TestCreateUserAPI(t *testing.T) {
 		tc := testCases[i]
 
 		t.Run(tc.name, func(t *testing.T) {
+			// 创建gmock
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
 
+			// 创建mock struct
 			store := mockdb.NewMockStore(ctrl)
 			tc.buildStubs(store)
 
