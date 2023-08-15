@@ -27,10 +27,9 @@ func TestGetAccount(t *testing.T) {
 			accountID: 1,
 			buildStubs: func(store *mockdb.MockStore) {
 				const id int64 = 1
-				store
-				.EXPECT()
-				.GetAccount(gomock.Any(), gomock.Eq(id))
-				.Return(randomAccount(id), nil).
+				store.EXPECT().
+					GetAccount(gomock.Any(), gomock.Eq(id)).
+					Return(randomAccount(id), nil).
 					Times(1)
 			},
 			expectStatus: http.StatusOK,
@@ -80,7 +79,7 @@ func TestGetAccount(t *testing.T) {
 			store := mockdb.NewMockStore(ctrl)
 			tc.buildStubs(store)
 
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			url := fmt.Sprintf("/accounts/%d", tc.accountID)
