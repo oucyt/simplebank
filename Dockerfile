@@ -7,13 +7,22 @@ COPY . .
 # 执行shell命令
 # 预先下载依赖包：可以在本地机器上使用go mod download命令先下载所有依赖包到本地缓存中，然后将缓存目录挂载到Docker容器中，以加快Docker镜像的构建速度。
 RUN go env -w GOPROXY=https://goproxy.cn,direct && go mod download && go build -o main main.go
-# RUN go env -w GOPROXY=https://goproxy.cn,direct && go env
+# RUN apk --no-cache add curl
+# RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz | tar xvz
 
-# Run stage
+
+# Run stage，全新基架
 FROM alpine:3.18
 WORKDIR /app
+# 拷贝Build stage步骤中生成的可执行文件main
 COPY --from=builder /app/main .
+# 拷贝migrate可执行文件
+COPY --from=builder /app/3rd/migrate ./migrate
 COPY app.env .
+COPY start.sh .
+COPY wait-for.sh .
+COPY db/migration ./migration
 
 EXPOSE 8080
 CMD [ "/app/main" ]
+ENTRYPOINT [ "/app/wait-for.sh", "postgres:5432", "--", "/app/start.sh" ]
