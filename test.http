@@ -1,4 +1,5 @@
 @host = http://0.0.0.0:8080
+# @host = http://172.18.0.3:8080
 @token = v2.local.yCpBlUOwstyAJnyJoog4odFKXbtvbGRIcUWvDK9-A1EthVltaQo6n24VGKR-dSgroLGA8oN2aLs_gbaRf_whcvFnxJ6yuvR_-WYpWEaHsk33qQnuMvBE-ckXbvo3ioho_TAutOunc8zzXSXqq6NgwX3_z129sKIQ7bxq1GhenwvtqUf_6Dzpqt2LabmxRKQWFNid188GlEgd7IYD_krLXXj75KI-BiBJaVZEWJMQNZ3CySqwA9Z7-jryNOyRUbmZcWSVXd-PCNPZiFS2IbU.bnVsbA
 
 
@@ -48,3 +49,46 @@ authorization:bearer {{token}}
 ### 获取用户列表
 GET {{host}}/accounts?page_id=1&page_size=10
 authorization:bearer {{token}}
+
+
+###
+
+PUT https://wqt.fortrun.cn/q/master/gemini/lvye/lvyeReport
+token: cloud_198130ca-0c68-430a-adec-9eec680ea090
+Session: cloud_198130ca-0c68-430a-adec-9eec680ea090
+
+{
+    "doubtDesc": "无",
+    "doubtType": 0,
+    "guestType": "LODGER",
+    "followType": "1",
+    "followerIdcard": "500382199202226738",
+    "followerMobile": "13601821141",
+    "followerName": "渔具",
+    "followerRelation": "1",
+    "guardianIdcard": "500382199202226738",
+    "guardianMobile": "13601821141",
+    "guardianName": "广告",
+    "guardianRelation": "1",
+    "hasGuardian": true,
+    "healthCode": 1,
+    "inTime": 1692164246370,
+    "lvyeReportRecordIds": [
+        "4eb6037ea7cf4e1cb0854e747df46586"
+    ],
+    "mobile": "17300000000",
+    "nights": 0,
+    "nonage": true,
+    "outTime": 1692250587808,
+    "roomId": "11fe531272c243f28ade1f36aa484cdb",
+    "roomNumber": "0420"
+}
+
+
+###
+
+POST https://wqt.fortrun.cn/q/master/gemini/lvye/searchLvyeReportInfos?offset=0&limit=12
+token: cloud_198130ca-0c68-430a-adec-9eec680ea090
+Session: cloud_198130ca-0c68-430a-adec-9eec680ea090
+
+{"createTimeEnd":"1692201599999","createTimeStart":"1692115200000","desc":true,"name":"","reportInStatuses":["SUCCESS","PENDING","UNREPORTED"]}

@@ -2,13 +2,13 @@
 DB_URL=postgresql://root:root@localhost:5432/simple_bank?sslmode=disable
 
 postgres:
-	docker run -it --rm --name postgres12 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -d postgres:12.15
+	docker run -it --rm --name my_postgresql -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -d postgres:12.15
 
 createdb:
-	docker exec -it postgres12 createdb --username=root --owner=root simple_bank
+	docker exec -it my_postgresql createdb --username=root --owner=root simple_bank
 
 dropdb:
-	docker exec -it postgres12 dropdb simple_bank
+	docker exec -it my_postgresql dropdb simple_bank
 
 migrateup:
 	migrate -path db/migration -database "$(DB_URL)" -verbose up
