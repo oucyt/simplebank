@@ -50,8 +50,8 @@ func EqCreateUserParams(arg db.CreateUserParams, password string) gomock.Matcher
 
 // 1. 指定测试名称
 // 2. 指定request参数
-// 3. 测试mock实例是否满足预期
-// 4. 测试响应是否满足预期
+// 3. 声明db层mock实例的行为
+// 4. 断言响应结果
 func TestCreateUserAPI(t *testing.T) {
 	user, password := randomUser(t)
 
@@ -62,13 +62,16 @@ func TestCreateUserAPI(t *testing.T) {
 		checkResponse func(recoder *httptest.ResponseRecorder)
 	}{
 		{
+			// 子用例名称
 			name: "OK",
+			// 请求参数
 			body: gin.H{
 				"username":  user.Username,
 				"password":  password,
 				"full_name": user.FullName,
 				"email":     user.Email,
 			},
+			// 开始测试前，先定义db层mock实例的行为
 			buildStubs: func(store *mockdb.MockStore) {
 				arg := db.CreateUserParams{
 					Username: user.Username,
@@ -76,11 +79,15 @@ func TestCreateUserAPI(t *testing.T) {
 					Email:    user.Email,
 				}
 				store.EXPECT().
+					// 声明CreateUser只会被调用一次
 					CreateUser(gomock.Any(), EqCreateUserParams(arg, password)).
 					Times(1).
+					// 声明CreateUser方法被调用后的返回值
 					Return(user, nil)
 			},
+			// 请求结束
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
+				// 断言server层的返回值
 				require.Equal(t, http.StatusOK, recorder.Code)
 				requireBodyMatchUser(t, recorder.Body, user)
 			},
@@ -97,6 +104,7 @@ func TestCreateUserAPI(t *testing.T) {
 				store.EXPECT().
 					CreateUser(gomock.Any(), gomock.Any()).
 					Times(1).
+					// db连接失败
 					Return(db.User{}, sql.ErrConnDone)
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
@@ -182,11 +190,13 @@ func TestCreateUserAPI(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
 
-			// 创建mock struct
+			// mock db层
 			store := mockdb.NewMockStore(ctrl)
 			tc.buildStubs(store)
 
 			server := newTestServer(t, store)
+
+			// gin 单元测试第一步 创建Recorder
 			recorder := httptest.NewRecorder()
 
 			// Marshal body data to JSON
@@ -197,7 +207,10 @@ func TestCreateUserAPI(t *testing.T) {
 			request, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(data))
 			require.NoError(t, err)
 
+			// gin 单元测试第二步 执行网络请求
 			server.router.ServeHTTP(recorder, request)
+
+			// gin 单元测试第三步 断言
 			tc.checkResponse(recorder)
 		})
 	}

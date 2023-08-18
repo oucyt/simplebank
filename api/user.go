@@ -45,7 +45,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-	// 明文密码hash处理
+	// 对明文密码hash处理
 	hashedPassword, err := util.HashPassword(req.Password)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
@@ -133,6 +133,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		return
 	}
 
+	// 创建session记录，记录refresh_token的相关信息
 	session, err := server.store.CreateSession(ctx, db.CreateSessionParams{
 		ID:           refreshPayload.ID,
 		Username:     user.Username,
