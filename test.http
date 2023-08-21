@@ -1,19 +1,9 @@
-@host = http://0.0.0.0:8080
+# @host = http://0.0.0.0:8080
+@host = http://0.0.0.0:9090
 # @host = http://172.18.0.3:8080
 @token = v2.local.yCpBlUOwstyAJnyJoog4odFKXbtvbGRIcUWvDK9-A1EthVltaQo6n24VGKR-dSgroLGA8oN2aLs_gbaRf_whcvFnxJ6yuvR_-WYpWEaHsk33qQnuMvBE-ckXbvo3ioho_TAutOunc8zzXSXqq6NgwX3_z129sKIQ7bxq1GhenwvtqUf_6Dzpqt2LabmxRKQWFNid188GlEgd7IYD_krLXXj75KI-BiBJaVZEWJMQNZ3CySqwA9Z7-jryNOyRUbmZcWSVXd-PCNPZiFS2IbU.bnVsbA
 
 
-### 转账
-POST {{host}}/transfers
-
-{
-    "from_account_id":5,
-    "to_account_id":1,
-    "amount":200,
-    "currency":"USD"
-}
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 ### user创建
 POST {{host}}/users
 
@@ -31,6 +21,20 @@ POST {{host}}/users/login
    "username":"tianyu",
    "password":"123456" 
 }
+
+
+### 转账
+POST {{host}}/transfers
+
+{
+    "from_account_id":5,
+    "to_account_id":1,
+    "amount":200,
+    "currency":"USD"
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
