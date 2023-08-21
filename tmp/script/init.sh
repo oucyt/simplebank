@@ -199,3 +199,4 @@ if [ ! -f /usr/bin/docker ]; then
 fi
 
 # 使用source xxx.sh 在当前shell中执行脚本，而不是在字shell中执行。这样，在脚本中对环境变量的修改将直接应用到当前的shell中。
+

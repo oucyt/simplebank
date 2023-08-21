@@ -19,6 +19,15 @@ SHIFT + F5 停止调试
     "-v"
 ]
 
+# 解决proto文件代码提示import错误提示
+vscode-proto3插件添加如下设置：
+
+"protoc": {
+    "options": [
+        "--proto_path=proto",
+    ]
+}
+
 # server容器如何与postgreSQL容器通信
 
 ## 方案1
