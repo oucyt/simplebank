@@ -47,6 +47,6 @@ protoc:
 	proto/*.proto
 
 evans:
-	3rd/evans-0.10.11 --host 0.0.0.0 --port 9001 -r repl
+	3rd/evans-0.10.11 --host 0.0.0.0 --port 9090 -r repl
 
 .PHONY: postgres createdb dropdb migrateup migratedown sqlc server protoc evans
