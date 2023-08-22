@@ -17,7 +17,7 @@ migratedown:
 	3rd/migrate-4.16.2 -path db/migration -database "$(DB_URL)" -verbose down
 
 sqlc:
-	sqlc generate
+	3rd/sqlc_v1.20.0 generate
 	
 # "./..."代表当前目录及其子目录。具体来说，"./"表示当前目录，"..."表示当前目录下的所有子目录。
 # 这种写法通常用于指定目标文件或源文件的路径，以便在编译或构建过程中找到所需的文件。
