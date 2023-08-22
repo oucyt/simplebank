@@ -7,15 +7,12 @@ ENV GO111MODULE=on \
 
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
-COPY go.mod go.mod
-COPY go.sum go.sum
-RUN go mod download
 
 # 拷贝当前路径所有文件至容器的工作路径下
 COPY . .
 # 执行shell命令
 # 预先下载依赖包：可以在本地机器上使用go mod download命令先下载所有依赖包到本地缓存中，然后将缓存目录挂载到Docker容器中，以加快Docker镜像的构建速度。
-RUN go mod download && go build -o main main.go
+RUN go build -o main main.go
 # RUN apk --no-cache add curl
 # RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz | tar xvz
 
