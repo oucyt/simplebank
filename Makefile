@@ -39,12 +39,17 @@ mock:
 # proto/*.proto：指定要编译的.proto文件。在这个例子中，它表示编译proto文件夹中的所有.proto文件。
 protoc:
 	rm -f pb/*.go
-	protoc --proto_path=proto 				   \
-		   --go_out=pb 						   \
-		   --go_opt=paths=source_relative      \
-		   --go-grpc_out=pb 				   \
-		   --go-grpc_opt=paths=source_relative \
+	protoc --proto_path=proto 				   		\
+		   --go_out=pb 						   		\
+		   --go_opt=paths=source_relative      		\
+		   --go-grpc_out=pb 				   		\
+		   --go-grpc_opt=paths=source_relative 		\
+		   --grpc-gateway_out=pb 			   		\
+		   --grpc-gateway_opt=paths=source_relative \
+		   --openapiv2_out=doc/swagger 				\
+		   --openapiv2_opt=allow_merge=true,merge_file_name=simple_bank \
 	proto/*.proto
+	statik -src=./doc/swagger -dest=./doc
 
 evans:
 	3rd/evans-0.10.11 --host 0.0.0.0 --port 9090 -r repl
