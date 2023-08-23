@@ -21,8 +21,9 @@ sqlc:
 	
 # "./..."代表当前目录及其子目录。具体来说，"./"表示当前目录，"..."表示当前目录下的所有子目录。
 # 这种写法通常用于指定目标文件或源文件的路径，以便在编译或构建过程中找到所需的文件。
+# go test -v -cover ./...
 test:
-	go test -v -cover ./...
+	go test -v -cover -short ./...
 
 server:
 	go run main.go
