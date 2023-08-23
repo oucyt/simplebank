@@ -54,4 +54,7 @@ protoc:
 evans:
 	3rd/evans-0.10.11 --host 0.0.0.0 --port 9090 -r repl
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc server protoc evans
+redis:
+	docker run --name redis -p 6379:6379 -d redis:7-alpine
+
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc server protoc evans redis
